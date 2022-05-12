@@ -17,11 +17,24 @@ public class Manager : MonoBehaviour
 {
     public TMP_InputField ipfKidsName;
 
+    public TMP_Text displayKidsName;
+
     private SoRuntimeData runtimeData;
 
     private void Start()
     {
         runtimeData = Resources.Load<SoRuntimeData>("KinderaddiererRuntimeData");
+
+        /* if (SceneManager.GetActiveScene().buildIndex == MyScenes.Welcome)
+        {
+            displayKidsName.text = runtimeData.nameKid;
+        } */
+
+        if (SceneManager.GetActiveScene().buildIndex == (int)MyScenes.Main)
+        {
+            Debug.Log("In Scene Main" + runtimeData.nameKid);
+            displayKidsName.text = runtimeData.nameKid;
+        }
     }
 
     public void SwitchTheScene(int x)
