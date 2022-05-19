@@ -7,6 +7,6 @@ public class SoRuntimeData : ScriptableObject
 
     private void OnEnable()
     {
-        nameKid = "";
+        // nameKid = "";
     }
 }

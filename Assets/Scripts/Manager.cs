@@ -63,4 +63,5 @@ public class Manager : MonoBehaviour
         SceneManager.LoadScene((int)MyScenes.End);
     }
     // Jede Szene wird einzeln aufgerufen, muss dann auch für jede Scene eine Methode aufschreiben
+
 }
