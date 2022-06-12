@@ -1,67 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using TMPro;
-
-public enum MyScenes
-{
-    Welcome,
-    Main,
-    End
-}
-// Hilfsstruktur
 
 public class Manager : MonoBehaviour
 {
-    public TMP_InputField ipfKidsName;
+    public Numbers refNumberPoints;
+    public GameObject dropZone;
+    public GameObject parentSigns;
+    public Numbers[] nbrsPlain;
+    public int correct, incorrect;
+    public TMP_Text textCorrect, textIncorrect;
 
-    public TMP_Text displayKidsName;
 
-    private SoRuntimeData runtimeData;
-
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        runtimeData = Resources.Load<SoRuntimeData>("KinderaddiererRuntimeData");
+        GenerateNewTask();
+        correct = incorrect = 0;
+        textCorrect.text = correct.ToString();
+        textIncorrect.text = incorrect.ToString();
+    }
 
-        /* if (SceneManager.GetActiveScene().buildIndex == MyScenes.Welcome)
-        {
-            displayKidsName.text = runtimeData.nameKid;
-        } */
+    public void AddToAndShowCorrectTasks()
+    {
+        correct++;
+        textCorrect.text = correct.ToString();
+    }
+    public void AddToAndShowIncorrectTasks()
+    {
+        incorrect++;
+        textIncorrect.text = incorrect.ToString();
+    }
 
-        if (SceneManager.GetActiveScene().buildIndex == (int)MyScenes.Main)
+    private void GenerateNewTask()
+    {
+        refNumberPoints.representingNumber = Random.Range(1, 9);
+        refNumberPoints.SetupNumberRepresentation();
+    }
+
+    public void ResetTask()
+    {
+        GenerateNewTask();
+        SetAllNumbersDragable(true);
+
+        for(int i = 0; i < nbrsPlain.Length; i++)
         {
-            Debug.Log("In Scene Main" + runtimeData.nameKid);
-            displayKidsName.text = runtimeData.nameKid;
+            nbrsPlain[i].Reset(parentSigns);
         }
     }
 
-    public void SwitchTheScene(int x)
+    public void SetAllNumbersDragable(bool dragOk)
     {
-        Debug.Log("BTN pressed, get kidsname " + ipfKidsName.text);
-        runtimeData.nameKid = ipfKidsName.text;
-
-        SceneManager.LoadScene(x);    
+        for(int i = 0; i< nbrsPlain.Length; i++)
+        {
+            nbrsPlain[i].dragable = dragOk;
+        }
     }
-    // aus einem Skript wird eine Szene geladen
-
-
-    public void SwitchTheScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
-    }
-    // ---
-
-
-    public void SwitchToMain()
-    {
-        SceneManager.LoadScene((int)MyScenes.Main);
-    }
-        public void SwitchToEnd()
-    {
-        SceneManager.LoadScene((int)MyScenes.End);
-    }
-    // Jede Szene wird einzeln aufgerufen, muss dann auch für jede Scene eine Methode aufschreiben
-
 }
